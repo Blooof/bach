@@ -1,0 +1,8 @@
+# IDEA related
+.idea/
+*.iml
+target/
+
+# Documentation
+tex/
+works/
