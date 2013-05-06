@@ -13,7 +13,7 @@ import static java.net.InetAddress.getByName;
  * Date: 04.05.13
  * Time: 23:52
  */
-public class IPAddressComparator implements Comparator {
+public class IPAddressComparator implements IComparator {
 
     @Override
     public double compare(Site first, Site second) {

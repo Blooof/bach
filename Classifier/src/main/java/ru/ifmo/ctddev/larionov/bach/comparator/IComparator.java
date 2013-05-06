@@ -7,6 +7,6 @@ import ru.ifmo.ctddev.larionov.bach.site.Site;
  * Date: 04.05.13
  * Time: 23:22
  */
-public interface Comparator {
+public interface IComparator {
     public double compare(Site first, Site second);
 }

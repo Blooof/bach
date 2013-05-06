@@ -11,7 +11,7 @@ import static java.lang.Math.max;
  * Date: 06.05.13
  * Time: 23:33
  */
-public class URLComparator implements Comparator {
+public class URLComparator implements IComparator {
 
     @Override
     public double compare(Site first, Site second) {
