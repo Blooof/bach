@@ -1,6 +1,6 @@
 package ru.ifmo.ctddev.larionov.bach.classifier;
 
-import ru.ifmo.ctddev.larionov.bach.site.Site;
+import ru.ifmo.ctddev.larionov.bach.site.ISite;
 
 /**
  * User: Oleg Larionov
@@ -9,5 +9,5 @@ import ru.ifmo.ctddev.larionov.bach.site.Site;
  */
 public interface IClassifier {
 
-    public double classify(Site first, Site second);
+    public double classify(ISite first, ISite second);
 }

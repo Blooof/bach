@@ -1,7 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.classifier;
 
 import ru.ifmo.ctddev.larionov.bach.comparator.IComparator;
-import ru.ifmo.ctddev.larionov.bach.site.Site;
+import ru.ifmo.ctddev.larionov.bach.site.ISite;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class Classifier implements IClassifier {
     }
 
     @Override
-    public double classify(Site first, Site second) {
+    public double classify(ISite first, ISite second) {
         double result = 0;
         int i = 0;
         for (IComparator comparator : siteComparators) {

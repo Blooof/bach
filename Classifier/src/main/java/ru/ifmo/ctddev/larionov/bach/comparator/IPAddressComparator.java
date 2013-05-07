@@ -1,7 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import ru.ifmo.ctddev.larionov.bach.exception.ClassifierRuntimeException;
-import ru.ifmo.ctddev.larionov.bach.site.Site;
+import ru.ifmo.ctddev.larionov.bach.site.ISite;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -16,15 +16,12 @@ import static java.net.InetAddress.getByName;
 public class IPAddressComparator implements IComparator {
 
     @Override
-    public double compare(Site first, Site second) {
+    public double compare(ISite first, ISite second) {
         try {
-            InetAddress firstIp = getByName(first.getUrl());
-            InetAddress secondIp = getByName(second.getUrl());
-            if (firstIp.equals(secondIp)) {
-                return 1;
-            } else {
-                return -1;
-            }
+            InetAddress firstIp = getByName(first.getHost());
+            InetAddress secondIp = getByName(second.getHost());
+
+            return firstIp.equals(secondIp) ? 1 : 0;
         } catch (UnknownHostException e) {
             throw new ClassifierRuntimeException("Cannot resolve IP addresses", e);
         }

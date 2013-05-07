@@ -1,6 +1,6 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
-import ru.ifmo.ctddev.larionov.bach.site.Site;
+import ru.ifmo.ctddev.larionov.bach.site.ISite;
 
 import java.util.StringTokenizer;
 
@@ -14,9 +14,9 @@ import static java.lang.Math.max;
 public class URLComparator implements IComparator {
 
     @Override
-    public double compare(Site first, Site second) {
-        StringTokenizer firstTokenizer = new StringTokenizer(first.getUrl(), "/");
-        StringTokenizer secondTokenizer = new StringTokenizer(second.getUrl(), "/");
+    public double compare(ISite first, ISite second) {
+        StringTokenizer firstTokenizer = new StringTokenizer(first.getHost(), "/");
+        StringTokenizer secondTokenizer = new StringTokenizer(second.getHost(), "/");
 
         int firstTokensCount = firstTokenizer.countTokens();
         int secondTokensCount = secondTokenizer.countTokens();
