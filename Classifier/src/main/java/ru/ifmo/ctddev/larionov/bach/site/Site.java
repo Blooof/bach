@@ -37,9 +37,9 @@ public class Site implements ISite {
     public List<ISite> getChildren() {
         Document document = getDocument();
         List<ISite> children = new ArrayList<>();
-        Elements links = document.getElementsByTag("a");
+        Elements links = document.select("a[href]");
         for (Element link : links) {
-            children.add(new Site(link.text()));
+            children.add(new Site(link.attr("href")));
         }
 
         logger.debug(String.format("Links on %s: %s", getHost(), children));
@@ -63,5 +63,12 @@ public class Site implements ISite {
         }
 
         return doc;
+    }
+
+    @Override
+    public String toString() {
+        return "Site{" +
+                "url='" + url + '\'' +
+                '}';
     }
 }

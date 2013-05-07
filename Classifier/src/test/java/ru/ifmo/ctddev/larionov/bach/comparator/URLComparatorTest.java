@@ -38,8 +38,8 @@ public class URLComparatorTest {
 
     @Test
     public void testFiftyPercentSimilar() {
-        Site first = getSiteWithUrl("http://some/fifty/percent/similar/urls");
-        Site second = getSiteWithUrl("http://exactly/50/percent/similar/sites");
+        Site first = getSiteWithUrl("http://exactly/fifty/percent/similar/urls/ru");
+        Site second = getSiteWithUrl("http://exactly/50/percent/similar/sites/com");
 
         double actual = urlComparator.compare(first, second);
 

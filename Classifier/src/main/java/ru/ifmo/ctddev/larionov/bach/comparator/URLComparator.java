@@ -15,8 +15,11 @@ public class URLComparator implements IComparator {
 
     @Override
     public double compare(ISite first, ISite second) {
-        StringTokenizer firstTokenizer = new StringTokenizer(first.getHost(), "/");
-        StringTokenizer secondTokenizer = new StringTokenizer(second.getHost(), "/");
+        String firstHost = getEffectiveHost(first.getHost());
+        String secondHost = getEffectiveHost(second.getHost());
+
+        StringTokenizer firstTokenizer = new StringTokenizer(firstHost, "/");
+        StringTokenizer secondTokenizer = new StringTokenizer(secondHost, "/");
 
         int firstTokensCount = firstTokenizer.countTokens();
         int secondTokensCount = secondTokenizer.countTokens();
@@ -30,5 +33,11 @@ public class URLComparator implements IComparator {
         }
 
         return ((double) similarTokensCount) / max(firstTokensCount, secondTokensCount);
+    }
+
+    private String getEffectiveHost(String host) {
+        int index = host.indexOf("://");
+        index = index >= 0 ? index + "://".length() : 0;
+        return host.substring(index);
     }
 }
