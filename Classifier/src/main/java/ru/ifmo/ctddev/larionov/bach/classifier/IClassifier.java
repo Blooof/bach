@@ -1,6 +1,9 @@
 package ru.ifmo.ctddev.larionov.bach.classifier;
 
 import ru.ifmo.ctddev.larionov.bach.site.ISite;
+import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
+
+import java.util.List;
 
 /**
  * User: Oleg Larionov
@@ -9,5 +12,5 @@ import ru.ifmo.ctddev.larionov.bach.site.ISite;
  */
 public interface IClassifier {
 
-    public double classify(ISite first, ISite second);
+    public List<WeightedPair> classify(Iterable<ISite> list);
 }

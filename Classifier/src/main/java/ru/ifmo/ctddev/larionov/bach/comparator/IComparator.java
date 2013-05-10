@@ -1,6 +1,9 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import ru.ifmo.ctddev.larionov.bach.site.ISite;
+import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
+
+import java.util.List;
 
 /**
  * User: Oleg Larionov
@@ -8,5 +11,5 @@ import ru.ifmo.ctddev.larionov.bach.site.ISite;
  * Time: 23:22
  */
 public interface IComparator {
-    public double compare(ISite first, ISite second);
+    public List<WeightedPair> createPairs(Iterable<ISite> list);
 }

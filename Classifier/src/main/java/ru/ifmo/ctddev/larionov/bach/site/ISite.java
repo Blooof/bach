@@ -1,5 +1,6 @@
 package ru.ifmo.ctddev.larionov.bach.site;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -8,9 +9,9 @@ import java.util.List;
  * Time: 22:40
  */
 public interface ISite {
-    public String getHost();
+    public URL getUrl();
 
     public List<ISite> getChildren();
 
-    public List<ISite> getAllLinks();
+    public String getText();
 }

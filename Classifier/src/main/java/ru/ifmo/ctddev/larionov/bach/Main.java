@@ -10,7 +10,7 @@ import ru.ifmo.ctddev.larionov.bach.site.Site;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ISite googleCom = new Site("http://google.com");
         googleCom.getChildren();
     }

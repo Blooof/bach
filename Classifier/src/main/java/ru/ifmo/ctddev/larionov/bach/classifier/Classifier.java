@@ -2,6 +2,7 @@ package ru.ifmo.ctddev.larionov.bach.classifier;
 
 import ru.ifmo.ctddev.larionov.bach.comparator.IComparator;
 import ru.ifmo.ctddev.larionov.bach.site.ISite;
+import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
 
 import java.util.List;
 
@@ -32,13 +33,8 @@ public class Classifier implements IClassifier {
     }
 
     @Override
-    public double classify(ISite first, ISite second) {
-        double result = 0;
-        int i = 0;
-        for (IComparator comparator : siteComparators) {
-            result += multipliers[i++] * comparator.compare(first, second);
-        }
-
-        return result;
+    public List<WeightedPair> classify(Iterable<ISite> list) {
+        // TODO implement
+        return null;
     }
 }
