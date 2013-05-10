@@ -9,32 +9,20 @@ import java.util.List;
  */
 public class WeightedPair {
 
-    private ISite firstHost;
     private List<ISite> firstHostPages;
-    private ISite secondHost;
     private List<ISite> secondHostPages;
     private double weight;
 
-    public WeightedPair(ISite firstHost, List<ISite> firstHostPages,
-                        ISite secondHost, List<ISite> secondHostPages,
+    public WeightedPair(List<ISite> firstHostPages,
+                        List<ISite> secondHostPages,
                         double weight) {
-        this.firstHost = firstHost;
         this.firstHostPages = firstHostPages;
-        this.secondHost = secondHost;
         this.secondHostPages = secondHostPages;
         this.weight = weight;
     }
 
-    public ISite getFirstHost() {
-        return firstHost;
-    }
-
     public List<ISite> getFirstHostPages() {
         return firstHostPages;
-    }
-
-    public ISite getSecondHost() {
-        return secondHost;
     }
 
     public List<ISite> getSecondHostPages() {
@@ -43,5 +31,14 @@ public class WeightedPair {
 
     public double getWeight() {
         return weight;
+    }
+
+    @Override
+    public String toString() {
+        return "WeightedPair{" +
+                "firstHostPages=" + firstHostPages +
+                ", secondHostPages=" + secondHostPages +
+                ", weight=" + weight +
+                '}';
     }
 }

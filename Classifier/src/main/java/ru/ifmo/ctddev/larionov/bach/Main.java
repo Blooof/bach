@@ -11,7 +11,8 @@ import ru.ifmo.ctddev.larionov.bach.site.Site;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        ISite googleCom = new Site("http://google.com");
+        ISite googleCom = new Site("https://www.google.com/calendar");
         googleCom.getChildren();
+        System.out.println(googleCom.getUrl().toString());
     }
 }
