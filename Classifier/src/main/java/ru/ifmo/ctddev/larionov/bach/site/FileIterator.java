@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class FileIterator implements Iterator<ISite> {
 
-    private final Logger logger = Logger.getLogger(FileIterator.class);
+    private static final Logger logger = Logger.getLogger(FileIterator.class);
     private Scanner scanner;
 
     public FileIterator(File file) throws FileNotFoundException {

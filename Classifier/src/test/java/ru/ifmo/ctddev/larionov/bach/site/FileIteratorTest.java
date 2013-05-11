@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class FileIteratorTest {
 
-    private final String FILENAME = "Classifier/src/test/resources/testFileIterator.txt";
+    private final String FILENAME = "src/test/resources/testFileIterator.txt";
     private FileIterator iterator;
 
     @Before
@@ -43,7 +43,9 @@ public class FileIteratorTest {
 
     @Test
     public void testNext() throws Exception {
-        try (Scanner scanner = new Scanner(new File(FILENAME))) {
+        File testFile = new File(FILENAME);
+        System.out.println(testFile.getAbsoluteFile());
+        try (Scanner scanner = new Scanner(testFile)) {
             while (scanner.hasNextLine()) {
                 String nextLine = scanner.nextLine();
                 URL expected = new URL(nextLine);

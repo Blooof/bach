@@ -21,7 +21,7 @@ import java.util.Set;
 public class IPAddressComparator implements IComparator {
 
     public static final int DEFAULT_THRESHOLD = 10;
-    private final Logger logger = Logger.getLogger(IPAddressComparator.class);
+    private static final Logger logger = Logger.getLogger(IPAddressComparator.class);
     private int threshold;
     private Map<String, Set<String>> ipToHosts = new HashMap<>();
     private Map<String, List<ISite>> hostToPages = new HashMap<>();
@@ -58,7 +58,7 @@ public class IPAddressComparator implements IComparator {
                             List<ISite> secondHostPages = hostToPages.get(secondHost);
 
                             // TODO weight
-                            WeightedPair newPair = new WeightedPair(firstHostPages, secondHostPages, 1.0);
+                            WeightedPair newPair = new WeightedPair(firstHost, secondHost, firstHostPages, secondHostPages, 1.0);
                             weightedList.add(newPair);
                         }
                     }

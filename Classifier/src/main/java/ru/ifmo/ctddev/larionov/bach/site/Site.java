@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * User: Oleg Larionov
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class Site implements ISite {
 
-    private static Logger logger = Logger.getLogger(Site.class);
+    private static final Logger logger = Logger.getLogger(Site.class);
     private final int TIMEOUT = 3000;
     private URL url;
     private Document doc;
@@ -79,5 +80,22 @@ public class Site implements ISite {
         return "Site{" +
                 "url='" + url + '\'' +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final Site other = (Site) obj;
+        return Objects.equals(this.url, other.url);
     }
 }

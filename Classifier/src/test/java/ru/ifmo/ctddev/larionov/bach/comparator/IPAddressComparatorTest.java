@@ -21,7 +21,7 @@ public class IPAddressComparatorTest {
     public void testCreatePairs() throws Exception {
         IComparator comparator = new IPAddressComparator();
 
-        Iterable<ISite> sites = new FileList(new File("Classifier/src/test/resources/testFileIterator.txt"));
+        Iterable<ISite> sites = new FileList(new File("src/test/resources/testFileIterator.txt"));
         List<WeightedPair> pairs = comparator.createPairs(sites);
 
         assertEquals(pairs.size(), 0);

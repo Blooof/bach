@@ -7,12 +7,10 @@
         <constructor-arg index="0">
             <list>
                 <bean class="ru.ifmo.ctddev.larionov.bach.comparator.IPAddressComparator"/>
-                <bean class="ru.ifmo.ctddev.larionov.bach.comparator.URLComparator"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1">
             <list>
-                <value>0.5</value>
                 <value>0.5</value>
             </list>
         </constructor-arg>
