@@ -1,6 +1,5 @@
 package ru.ifmo.ctddev.larionov.bach.site;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,18 +11,17 @@ public class WeightedPair {
 
     private String firstHost;
     private String secondHost;
-    private List<ISite> firstHostPages;
-    private List<ISite> secondHostPages;
     private double weight;
 
     public WeightedPair(String firstHost, String secondHost,
-                        List<ISite> firstHostPages, List<ISite> secondHostPages,
                         double weight) {
         this.firstHost = firstHost;
         this.secondHost = secondHost;
-        this.firstHostPages = firstHostPages;
-        this.secondHostPages = secondHostPages;
         this.weight = weight;
+    }
+
+    public WeightedPair(String firstHost, String secondHost) {
+        this(firstHost, secondHost, 0);
     }
 
     public String getFirstHost() {
@@ -34,16 +32,12 @@ public class WeightedPair {
         return secondHost;
     }
 
-    public List<ISite> getFirstHostPages() {
-        return firstHostPages;
-    }
-
-    public List<ISite> getSecondHostPages() {
-        return secondHostPages;
-    }
-
     public double getWeight() {
         return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     @Override

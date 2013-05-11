@@ -1,7 +1,11 @@
 package ru.ifmo.ctddev.larionov.bach;
 
-import ru.ifmo.ctddev.larionov.bach.site.ISite;
-import ru.ifmo.ctddev.larionov.bach.site.Site;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.ifmo.ctddev.larionov.bach.classifier.IClassifier;
+import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
+
+import java.util.List;
 
 /**
  * User: Oleg Larionov
@@ -10,9 +14,22 @@ import ru.ifmo.ctddev.larionov.bach.site.Site;
  */
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        ISite googleCom = new Site("https://www.google.com/calendar");
-        googleCom.getChildren();
-        System.out.println(googleCom.getUrl().toString());
+    private static final String CONFIG_LOCATION = "spring-config.xml";
+    private ApplicationContext context;
+
+    private Main() {
+        context = new ClassPathXmlApplicationContext(CONFIG_LOCATION);
+    }
+
+    public static void main(String[] args) {
+        new Main().run();
+    }
+
+    private void run() {
+        IClassifier classifier = (IClassifier) context.getBean("defaultClassifier");
+        Iterable urls = (Iterable) context.getBean("defaultUrls");
+
+        List<WeightedPair> pairs = classifier.classify(urls);
+        System.out.println(pairs);
     }
 }

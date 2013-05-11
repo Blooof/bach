@@ -22,7 +22,7 @@ import java.util.Objects;
 public class Site implements ISite {
 
     private static final Logger logger = Logger.getLogger(Site.class);
-    private final int TIMEOUT = 3000;
+    private static final int TIMEOUT = 3000;
     private URL url;
     private Document doc;
 

@@ -24,7 +24,6 @@ public class IPAddressComparator implements IComparator {
     private static final Logger logger = Logger.getLogger(IPAddressComparator.class);
     private int threshold;
     private Map<String, Set<String>> ipToHosts = new HashMap<>();
-    private Map<String, List<ISite>> hostToPages = new HashMap<>();
 
     public IPAddressComparator() {
         this(DEFAULT_THRESHOLD);
@@ -54,11 +53,8 @@ public class IPAddressComparator implements IComparator {
                         String secondHost = hostsArray[j];
 
                         if (!firstHost.equals(secondHost)) {
-                            List<ISite> firstHostPages = hostToPages.get(firstHost);
-                            List<ISite> secondHostPages = hostToPages.get(secondHost);
-
                             // TODO weight
-                            WeightedPair newPair = new WeightedPair(firstHost, secondHost, firstHostPages, secondHostPages, 1.0);
+                            WeightedPair newPair = new WeightedPair(firstHost, secondHost, 1.0);
                             weightedList.add(newPair);
                         }
                     }
@@ -77,8 +73,6 @@ public class IPAddressComparator implements IComparator {
                 hostAddress = getThreeOctets(hostAddress);
 
                 addNewIpAddress(site, host, hostAddress);
-
-                addNewPage(site, host);
             } catch (UnknownHostException e) {
                 logger.warn("Cannot resolve url " + site.getUrl(), e);
             }
@@ -102,13 +96,5 @@ public class IPAddressComparator implements IComparator {
             logger.debug(String.format("Url %s resolved in %s", site.getUrl(), hostAddress));
             resolvedHosts.add(hostAddress);
         }
-    }
-
-    private void addNewPage(ISite site, String host) {
-        if (!hostToPages.containsKey(host)) {
-            hostToPages.put(host, new ArrayList<ISite>());
-        }
-
-        hostToPages.get(host).add(site);
     }
 }
