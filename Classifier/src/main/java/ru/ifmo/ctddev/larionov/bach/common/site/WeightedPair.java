@@ -1,4 +1,6 @@
-package ru.ifmo.ctddev.larionov.bach.site;
+package ru.ifmo.ctddev.larionov.bach.common.site;
+
+import ru.ifmo.ctddev.larionov.bach.common.Pair;
 
 import java.util.Objects;
 
@@ -9,14 +11,12 @@ import java.util.Objects;
  */
 public class WeightedPair {
 
-    private ISite firstHost;
-    private ISite secondHost;
+    private Pair<ISite, ISite> pair;
     private double weight;
 
     public WeightedPair(ISite firstHost, ISite secondHost,
                         double weight) {
-        this.firstHost = firstHost;
-        this.secondHost = secondHost;
+        pair = new Pair<>(firstHost, secondHost);
         this.weight = weight;
     }
 
@@ -25,11 +25,11 @@ public class WeightedPair {
     }
 
     public ISite getFirstHost() {
-        return firstHost;
+        return pair.getFirst();
     }
 
     public ISite getSecondHost() {
-        return secondHost;
+        return pair.getSecond();
     }
 
     public double getWeight() {
@@ -43,15 +43,14 @@ public class WeightedPair {
     @Override
     public String toString() {
         return "WeightedPair{" +
-                "firstHost=" + firstHost +
-                ", secondHost=" + secondHost +
+                "pair=" + pair +
                 ", weight=" + weight +
                 '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstHost, secondHost, weight);
+        return Objects.hash(pair);
     }
 
     @Override
@@ -63,8 +62,6 @@ public class WeightedPair {
             return false;
         }
         final WeightedPair other = (WeightedPair) obj;
-        return Objects.equals(this.firstHost, other.firstHost)
-                && Objects.equals(this.secondHost, other.secondHost)
-                && Objects.equals(this.weight, other.weight);
+        return Objects.equals(this.pair, other.pair);
     }
 }

@@ -18,7 +18,7 @@
         </constructor-arg>
     </bean>
 
-    <bean name="defaultUrls" class="ru.ifmo.ctddev.larionov.bach.site.FileList">
+    <bean name="defaultUrls" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
         <constructor-arg value="testUrls.txt"/>
     </bean>
 </beans>

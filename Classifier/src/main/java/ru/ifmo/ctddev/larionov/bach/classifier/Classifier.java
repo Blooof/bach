@@ -1,9 +1,9 @@
 package ru.ifmo.ctddev.larionov.bach.classifier;
 
 import org.apache.log4j.Logger;
+import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
+import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 import ru.ifmo.ctddev.larionov.bach.comparator.IComparator;
-import ru.ifmo.ctddev.larionov.bach.site.ISite;
-import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.larionov.bach.site;
+package ru.ifmo.ctddev.larionov.bach.common.site;
 
 import java.net.URL;
 import java.util.List;

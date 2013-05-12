@@ -3,7 +3,7 @@ package ru.ifmo.ctddev.larionov.bach;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.ifmo.ctddev.larionov.bach.classifier.IClassifier;
-import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
+import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
 import java.util.List;
 

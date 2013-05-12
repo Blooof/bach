@@ -1,9 +1,9 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import org.junit.Test;
-import ru.ifmo.ctddev.larionov.bach.site.FileList;
-import ru.ifmo.ctddev.larionov.bach.site.ISite;
-import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
+import ru.ifmo.ctddev.larionov.bach.common.site.FileList;
+import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
+import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
 import java.io.File;
 import java.util.List;

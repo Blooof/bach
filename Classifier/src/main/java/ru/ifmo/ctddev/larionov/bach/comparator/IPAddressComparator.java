@@ -1,8 +1,8 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import org.apache.log4j.Logger;
-import ru.ifmo.ctddev.larionov.bach.site.ISite;
-import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
+import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
+import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

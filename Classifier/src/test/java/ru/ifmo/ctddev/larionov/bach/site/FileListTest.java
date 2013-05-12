@@ -2,6 +2,8 @@ package ru.ifmo.ctddev.larionov.bach.site;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.ifmo.ctddev.larionov.bach.common.site.FileList;
+import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 
 import java.io.File;
 import java.net.URL;

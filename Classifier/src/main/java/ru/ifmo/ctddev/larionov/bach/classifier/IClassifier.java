@@ -1,7 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.classifier;
 
-import ru.ifmo.ctddev.larionov.bach.site.ISite;
-import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
+import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
+import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
 import java.util.List;
 

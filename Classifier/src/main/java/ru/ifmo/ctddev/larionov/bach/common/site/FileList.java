@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.larionov.bach.site;
+package ru.ifmo.ctddev.larionov.bach.common.site;
 
 import org.apache.log4j.Logger;
 import ru.ifmo.ctddev.larionov.bach.exception.ClassifierRuntimeException;
