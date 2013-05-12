@@ -16,9 +16,14 @@
                 <value>0.5</value>
             </list>
         </constructor-arg>
+        <constructor-arg index="2" ref="pageChecker"/>
     </bean>
 
     <bean name="defaultUrls" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
         <constructor-arg value="testUrls.txt"/>
     </bean>
+
+    <bean name="pageChecker" class="ru.ifmo.ctddev.larionov.bach.checker.PageChecker"/>
+    <bean name="linkStrategy" class="ru.ifmo.ctddev.larionov.bach.checker.linkstrategy.SimpleLinkStrategy"/>
+    <bean name="textChecker" class="ru.ifmo.ctddev.larionov.bach.checker.textchecker.ShinglesTextChecker"/>
 </beans>
