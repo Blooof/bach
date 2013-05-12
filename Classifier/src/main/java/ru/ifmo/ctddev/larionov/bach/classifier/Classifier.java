@@ -52,10 +52,16 @@ public class Classifier implements IClassifier {
             runComparator(list, weights, multipliers[i], comparator);
         }
 
-        List<WeightedPair> result = extractResults(weights);
+        List<WeightedPair> candidates = extractResults(weights);
+        logger.debug("Candidates: " + candidates);
 
-        logger.debug("Final results from classifier " + result.toString());
-        return result;
+        for (WeightedPair pair : candidates) {
+            double value = pageChecker.checkPair(pair);
+            pair.setWeight(value);
+        }
+
+        logger.debug("Final results: " + candidates);
+        return candidates;
     }
 
     private List<WeightedPair> extractResults(Map<WeightedPair, Double> weights) {
