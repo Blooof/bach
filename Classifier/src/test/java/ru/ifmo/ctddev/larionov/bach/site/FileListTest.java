@@ -5,8 +5,11 @@ import org.junit.Test;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,15 +20,16 @@ import static org.junit.Assert.assertTrue;
  * Date: 10.05.13
  * Time: 22:55
  */
-public class FileIteratorTest {
+public class FileListTest {
 
     private final String FILENAME = "src/test/resources/testFileIterator.txt";
-    private FileIterator iterator;
+    private Iterator<ISite> iterator;
 
     @Before
     public void setUp() throws Exception {
         File file = new File(FILENAME);
-        iterator = new FileIterator(file);
+        FileList list = new FileList(file);
+        iterator = list.iterator();
     }
 
     @Test
@@ -44,14 +48,22 @@ public class FileIteratorTest {
     @Test
     public void testNext() throws Exception {
         File testFile = new File(FILENAME);
-        System.out.println(testFile.getAbsoluteFile());
+        Set<String> hosts = new HashSet<>();
         try (Scanner scanner = new Scanner(testFile)) {
             while (scanner.hasNextLine()) {
-                String nextLine = scanner.nextLine();
-                URL expected = new URL(nextLine);
-                assertEquals(expected, iterator.next().getUrl());
+                String url = scanner.nextLine().trim();
+                URL page = new URL(url);
+                hosts.add(page.getHost());
             }
         }
+
+        int count = 0;
+        while (iterator.hasNext()) {
+            assertTrue(hosts.contains(iterator.next().getHost()));
+            ++count;
+        }
+
+        assertEquals(hosts.size(), count);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -61,9 +73,6 @@ public class FileIteratorTest {
     }
 
     private void moveToEnd() {
-        iterator.next();
-        iterator.next();
-        iterator.next();
         iterator.next();
         iterator.next();
     }

@@ -9,9 +9,7 @@ import java.util.List;
  * Time: 22:40
  */
 public interface ISite {
-    public URL getUrl();
+    public String getHost();
 
-    public List<ISite> getChildren();
-
-    public String getText();
+    public List<URL> getLinks();
 }

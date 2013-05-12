@@ -23,7 +23,6 @@ public class IPAddressComparator implements IComparator {
     public static final int DEFAULT_THRESHOLD = 10;
     private static final Logger logger = Logger.getLogger(IPAddressComparator.class);
     private int threshold;
-    private Map<String, Set<String>> ipToHosts = new HashMap<>();
 
     public IPAddressComparator() {
         this(DEFAULT_THRESHOLD);
@@ -35,22 +34,45 @@ public class IPAddressComparator implements IComparator {
 
     @Override
     public List<WeightedPair> createPairs(Iterable<ISite> list) {
-        resolveHosts(list);
+        Map<String, Set<ISite>> ipToHosts = resolveHosts(list);
 
-        return getWeightedPairs();
+        return getWeightedPairs(ipToHosts);
     }
 
-    private List<WeightedPair> getWeightedPairs() {
+    private Map<String, Set<ISite>> resolveHosts(Iterable<ISite> list) {
+        Map<String, Set<ISite>> ipToHosts = new HashMap<>();
+
+        for (ISite site : list) {
+            String host = site.getHost();
+            try {
+                InetAddress inetAddress = InetAddress.getByName(host);
+                String hostAddress = inetAddress.getHostAddress();
+                logger.debug(String.format("Url %s resolved in %s", site.getHost(), hostAddress));
+
+                // TODO test with three and four octets
+                hostAddress = getThreeOctets(hostAddress);
+
+                addNewIpAddress(ipToHosts, site, hostAddress);
+            } catch (UnknownHostException e) {
+                logger.warn("Cannot resolve url " + host, e);
+            }
+        }
+
+        return ipToHosts;
+    }
+
+    private List<WeightedPair> getWeightedPairs(Map<String, Set<ISite>> ipToHosts) {
         List<WeightedPair> weightedList = new ArrayList<>();
-        for (Map.Entry<String, Set<String>> entry : ipToHosts.entrySet()) {
-            Set<String> currentHosts = entry.getValue();
+        for (Map.Entry<String, Set<ISite>> entry : ipToHosts.entrySet()) {
+            Set<ISite> currentHosts = entry.getValue();
 
             if (currentHosts.size() < threshold && currentHosts.size() > 1) {
-                String[] hostsArray = currentHosts.toArray(new String[0]);
+                ISite[] hostsArray = currentHosts.toArray(new ISite[0]);
+
                 for (int i = 0; i < hostsArray.length - 1; i++) {
                     for (int j = i + 1; j < hostsArray.length; j++) {
-                        String firstHost = hostsArray[i];
-                        String secondHost = hostsArray[j];
+                        ISite firstHost = hostsArray[i];
+                        ISite secondHost = hostsArray[j];
 
                         if (!firstHost.equals(secondHost)) {
                             // TODO weight
@@ -64,37 +86,17 @@ public class IPAddressComparator implements IComparator {
         return weightedList;
     }
 
-    private Map<String, Set<String>> resolveHosts(Iterable<ISite> list) {
-        for (ISite site : list) {
-            try {
-                String host = site.getUrl().getHost();
-                InetAddress inetAddress = InetAddress.getByName(host);
-                String hostAddress = inetAddress.getHostAddress();
-                hostAddress = getThreeOctets(hostAddress);
-
-                addNewIpAddress(site, host, hostAddress);
-            } catch (UnknownHostException e) {
-                logger.warn("Cannot resolve url " + site.getUrl(), e);
-            }
-        }
-
-        return ipToHosts;
-    }
-
     private String getThreeOctets(String hostAddress) {
         hostAddress = hostAddress.substring(0, hostAddress.lastIndexOf("."));
         return hostAddress;
     }
 
-    private void addNewIpAddress(ISite site, String host, String hostAddress) {
+    private void addNewIpAddress(Map<String, Set<ISite>> ipToHosts, ISite site, String hostAddress) {
         if (!ipToHosts.containsKey(hostAddress)) {
-            ipToHosts.put(hostAddress, new HashSet<String>());
+            ipToHosts.put(hostAddress, new HashSet<ISite>());
         }
 
-        Set<String> resolvedHosts = ipToHosts.get(hostAddress);
-        if (!resolvedHosts.contains(host)) {
-            logger.debug(String.format("Url %s resolved in %s", site.getUrl(), hostAddress));
-            resolvedHosts.add(hostAddress);
-        }
+        Set<ISite> resolvedHosts = ipToHosts.get(hostAddress);
+        resolvedHosts.add(site);
     }
 }

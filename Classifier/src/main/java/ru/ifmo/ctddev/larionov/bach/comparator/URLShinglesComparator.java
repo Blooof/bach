@@ -3,6 +3,7 @@ package ru.ifmo.ctddev.larionov.bach.comparator;
 import ru.ifmo.ctddev.larionov.bach.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.site.WeightedPair;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,14 +21,12 @@ import static java.lang.Math.log;
 public class URLShinglesComparator implements IComparator {
 
     private static final int DEFAULT_SHINGLES_COUNT = 2;
-    private Map<String, Set<String>> data = new HashMap<>();
-    private Map<String, Long> hostPageCount = new HashMap<>();
 
     @Override
     public List<WeightedPair> createPairs(Iterable<ISite> list) {
-        getShinglesData(list);
+        Map<String, Set<ISite>> data = getShinglesData(list);
 
-        Map<WeightedPair, Double> similarity = calculateSimilarity();
+        Map<WeightedPair, Double> similarity = calculateSimilarity(data);
 
         return normalizeSimilarity(similarity);
     }
@@ -38,8 +37,8 @@ public class URLShinglesComparator implements IComparator {
             WeightedPair pair = entry.getKey();
             double value = entry.getValue();
 
-            long firstPageCount = hostPageCount.get(pair.getFirstHost());
-            long secondPageCount = hostPageCount.get(pair.getSecondHost());
+            long firstPageCount = pair.getFirstHost().getLinks().size();
+            long secondPageCount = pair.getSecondHost().getLinks().size();
             value /= 1 + 0.1 * (log(firstPageCount) + log(secondPageCount));
 
             pair.setWeight(value);
@@ -50,10 +49,12 @@ public class URLShinglesComparator implements IComparator {
         return result;
     }
 
-    private Map<WeightedPair, Double> calculateSimilarity() {
+    private Map<WeightedPair, Double> calculateSimilarity(Map<String, Set<ISite>> data) {
         Map<WeightedPair, Double> similarity = new HashMap<>();
-        for (Map.Entry<String, Set<String>> entry : data.entrySet()) {
-            String[] hosts = entry.getValue().toArray(new String[]{});
+
+        for (Map.Entry<String, Set<ISite>> entry : data.entrySet()) {
+            ISite[] hosts = entry.getValue().toArray(new ISite[0]);
+
             if (hosts.length > 1) {
                 for (int i = 0; i < hosts.length - 1; i++) {
                     for (int j = i + 1; j < hosts.length; j++) {
@@ -68,41 +69,37 @@ public class URLShinglesComparator implements IComparator {
                 }
             }
         }
+
         return similarity;
     }
 
-    private void getShinglesData(Iterable<ISite> list) {
+    private Map<String, Set<ISite>> getShinglesData(Iterable<ISite> list) {
+        Map<String, Set<ISite>> data = new HashMap<>();
+
         for (ISite site : list) {
-            incrementHostPageCount(site);
-
-            addShingles(site);
+            addShingles(data, site);
         }
+
+        return data;
     }
 
-    private void addShingles(ISite site) {
-        String[] urlParts = getParts(site);
-        String[] shingles = getShingles(urlParts, DEFAULT_SHINGLES_COUNT);
+    private void addShingles(Map<String, Set<ISite>> data, ISite site) {
+        for (URL page : site.getLinks()) {
+            String[] urlParts = getParts(page);
+            String[] shingles = getShingles(urlParts, DEFAULT_SHINGLES_COUNT);
 
-        for (String shingle : shingles) {
-            if (!data.containsKey(shingle)) {
-                data.put(shingle, new HashSet<String>());
+            for (String shingle : shingles) {
+                if (!data.containsKey(shingle)) {
+                    data.put(shingle, new HashSet<ISite>());
+                }
+
+                data.get(shingle).add(site);
             }
-
-            data.get(shingle).add(site.getUrl().getHost());
         }
     }
 
-    private void incrementHostPageCount(ISite site) {
-        String host = site.getUrl().getHost();
-        if (!hostPageCount.containsKey(host)) {
-            hostPageCount.put(host, 0l);
-        }
-        long value = hostPageCount.get(host);
-        hostPageCount.put(host, value + 1);
-    }
-
-    private String[] getParts(ISite site) {
-        String url = site.getUrl().getHost() + site.getUrl().getPath();
+    private String[] getParts(URL page) {
+        String url = page.getHost() + page.getPath();
         url = url.replaceAll("[0-9]+", "\\*");
 
         return url.split("[./]");
