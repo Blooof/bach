@@ -1,6 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.classifier;
 
 import org.apache.log4j.Logger;
+import ru.ifmo.ctddev.larionov.bach.checker.IPageChecker;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 import ru.ifmo.ctddev.larionov.bach.comparator.IComparator;
@@ -21,12 +22,14 @@ public class Classifier implements IClassifier {
     private static final Logger logger = Logger.getLogger(Classifier.class);
     private List<IComparator> siteComparators;
     private double[] multipliers;
+    private IPageChecker pageChecker;
 
-    public Classifier(List<IComparator> siteComparators, double[] multipliers) {
+    public Classifier(List<IComparator> siteComparators, double[] multipliers, IPageChecker pageChecker) {
         checkArguments(siteComparators, multipliers);
 
         this.siteComparators = siteComparators;
         this.multipliers = multipliers;
+        this.pageChecker = pageChecker;
     }
 
     private void checkArguments(List<IComparator> siteComparators, double[] multipliers) {
