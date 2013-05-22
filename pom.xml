@@ -12,6 +12,7 @@
 
     <modules>
         <module>Classifier</module>
+        <module>Crawler</module>
     </modules>
 
     <properties>
