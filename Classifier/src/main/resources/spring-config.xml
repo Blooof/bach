@@ -20,10 +20,13 @@
     </bean>
 
     <bean name="defaultUrls" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
-        <constructor-arg value="testUrls.txt"/>
+        <constructor-arg value="test.txt"/>
     </bean>
 
-    <bean name="pageChecker" class="ru.ifmo.ctddev.larionov.bach.checker.PageChecker"/>
     <bean name="linkStrategy" class="ru.ifmo.ctddev.larionov.bach.checker.linkstrategy.SimpleLinkStrategy"/>
     <bean name="textChecker" class="ru.ifmo.ctddev.larionov.bach.checker.textchecker.ShinglesTextChecker"/>
+    <bean name="pageChecker" class="ru.ifmo.ctddev.larionov.bach.checker.PageChecker">
+        <constructor-arg ref="linkStrategy"/>
+        <constructor-arg ref="textChecker"/>
+    </bean>
 </beans>

@@ -31,8 +31,8 @@ public class SimpleLinkStrategy implements ILinkStrategy {
         int fromSecond = count - fromFirst;
 
         Random rnd = new Random();
-        createLinks(first.getLinks(), result, first.getHost(), rnd, fromFirst);
-        createLinks(second.getLinks(), result, second.getHost(), rnd, fromSecond);
+        createLinks(first.getLinks(), result, second.getHost(), rnd, fromFirst);
+        createLinks(second.getLinks(), result, first.getHost(), rnd, fromSecond);
 
         return result;
     }

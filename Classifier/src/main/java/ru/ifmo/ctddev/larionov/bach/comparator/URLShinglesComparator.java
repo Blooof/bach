@@ -5,6 +5,8 @@ import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static java.lang.Math.log;
+import static java.lang.Math.min;
 
 /**
  * User: Oleg Larionov
@@ -21,6 +24,7 @@ import static java.lang.Math.log;
 public class URLShinglesComparator implements IComparator {
 
     private static final int DEFAULT_SHINGLES_COUNT = 2;
+    private static final int MAX_SHINGLES_FROM_SITE = 100;
 
     @Override
     public List<WeightedPair> createPairs(Iterable<ISite> list) {
@@ -53,9 +57,8 @@ public class URLShinglesComparator implements IComparator {
         Map<WeightedPair, Double> similarity = new HashMap<>();
 
         for (Map.Entry<String, Set<ISite>> entry : data.entrySet()) {
-            ISite[] hosts = entry.getValue().toArray(new ISite[0]);
-
-            if (hosts.length > 1) {
+            if (entry.getValue().size() > 1) {
+                ISite[] hosts = entry.getValue().toArray(new ISite[0]);
                 for (int i = 0; i < hosts.length - 1; i++) {
                     for (int j = i + 1; j < hosts.length; j++) {
                         WeightedPair pair = new WeightedPair(hosts[i], hosts[j]);
@@ -84,17 +87,60 @@ public class URLShinglesComparator implements IComparator {
     }
 
     private void addShingles(Map<String, Set<ISite>> data, ISite site) {
+        Map<String, Long> shinglesCount = new HashMap<>();
+
+        calculateShingles(site, shinglesCount);
+
+        List<Map.Entry<String, Long>> entries = sortShinglesByFrequency(shinglesCount);
+
+        getMostFrequentedShingles(data, site, entries);
+    }
+
+    private void calculateShingles(ISite site, Map<String, Long> shinglesCount) {
         for (URL page : site.getLinks()) {
             String[] urlParts = getParts(page);
             String[] shingles = getShingles(urlParts, DEFAULT_SHINGLES_COUNT);
 
             for (String shingle : shingles) {
-                if (!data.containsKey(shingle)) {
-                    data.put(shingle, new HashSet<ISite>());
+                if (!shinglesCount.containsKey(shingle)) {
+                    shinglesCount.put(shingle, 0l);
                 }
 
-                data.get(shingle).add(site);
+                long currentValue = shinglesCount.get(shingle);
+                shinglesCount.put(shingle, currentValue + 1);
             }
+        }
+    }
+
+    private List<Map.Entry<String, Long>> sortShinglesByFrequency(Map<String, Long> shinglesCount) {
+        Set<Map.Entry<String, Long>> entries = shinglesCount.entrySet();
+        List<Map.Entry<String, Long>> list = new ArrayList<>(entries);
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Long>>() {
+            @Override
+            public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
+                if (o1.getValue() < o2.getValue()) {
+                    return 1;
+                } else if (o1.getValue() > o2.getValue()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+        return list;
+    }
+
+    private void getMostFrequentedShingles(Map<String, Set<ISite>> data, ISite site, List<Map.Entry<String, Long>> entries) {
+        int shinglesCount = min(MAX_SHINGLES_FROM_SITE, entries.size() / 4);
+        for (int i = 0; i < shinglesCount; i++) {
+            String shingle = entries.get(i).getKey();
+            if (!data.containsKey(shingle)) {
+                data.put(shingle, new HashSet<ISite>());
+            }
+
+            data.get(shingle).add(site);
         }
     }
 

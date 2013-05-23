@@ -27,7 +27,7 @@ public class ShinglesTextChecker implements ITextChecker {
 
     @Override
     public double checkText(String text1, String text2) {
-        logger.debug("Check " + text1 + " and " + text2);
+        logger.debug("Check\n" + text1 + "\nand\n" + text2);
 
         Set<String> text1Shingles = getShingles(text1);
         Set<String> text2Shingles = getShingles(text2);
@@ -87,7 +87,7 @@ public class ShinglesTextChecker implements ITextChecker {
         public String toString() {
             StringBuffer sb = new StringBuffer();
 
-            for (int i = head; i >= 0; i--) {
+            for (int i = head + 1; i < elements.length; i++) {
                 if (sb.length() != 0) {
                     sb.append("_");
                 }
@@ -96,7 +96,7 @@ public class ShinglesTextChecker implements ITextChecker {
                 }
             }
 
-            for (int i = elements.length - 1; i > head; i--) {
+            for (int i = 0; i <= head; i++) {
                 if (sb.length() != 0) {
                     sb.append("_");
                 }

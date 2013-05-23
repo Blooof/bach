@@ -19,5 +19,10 @@
             <artifactId>crawler4j</artifactId>
             <version>3.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.12</version>
+        </dependency>
     </dependencies>
 </project>
