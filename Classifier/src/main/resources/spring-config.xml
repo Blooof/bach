@@ -23,6 +23,10 @@
         <constructor-arg value="test.txt"/>
     </bean>
 
+    <bean name="arxivOrg" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
+        <constructor-arg value="arxiv.org.txt"/>
+    </bean>
+
     <bean name="linkStrategy" class="ru.ifmo.ctddev.larionov.bach.checker.linkstrategy.SimpleLinkStrategy"/>
     <bean name="textChecker" class="ru.ifmo.ctddev.larionov.bach.checker.textchecker.ShinglesTextChecker"/>
     <bean name="pageChecker" class="ru.ifmo.ctddev.larionov.bach.checker.PageChecker">

@@ -39,9 +39,11 @@ public class PageChecker implements IPageChecker {
             String text1 = getText(links.getFirst());
             String text2 = getText(links.getSecond());
             if (text1 != null && text2 != null) {
+                logger.debug("Valid pair: " + links);
                 result += textChecker.checkText(text1, text2);
                 validPairs++;
             } else if (text1 != null || text2 != null) {
+                logger.debug("Bad pair: " + links);
                 badPairs++;
             }
         }

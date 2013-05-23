@@ -148,7 +148,7 @@ public class URLShinglesComparator implements IComparator {
         String url = page.getHost() + page.getPath();
         url = url.replaceAll("[0-9]+", "\\*");
 
-        return url.split("[./]");
+        return url.split("[/]");
     }
 
     private String[] getShingles(String[] urlParts, int partsInShingle) {
