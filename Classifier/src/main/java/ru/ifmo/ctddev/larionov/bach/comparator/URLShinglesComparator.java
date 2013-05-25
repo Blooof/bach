@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.lang.Math.log;
 import static java.lang.Math.min;
 
 /**
@@ -24,7 +23,7 @@ import static java.lang.Math.min;
 public class URLShinglesComparator implements IComparator {
 
     private static final int DEFAULT_SHINGLES_COUNT = 2;
-    private static final int MAX_SHINGLES_FROM_SITE = 100;
+    private static final int MAX_SHINGLES_FROM_SITE = 200;
 
     @Override
     public List<WeightedPair> createPairs(Iterable<ISite> list) {
@@ -41,10 +40,8 @@ public class URLShinglesComparator implements IComparator {
             WeightedPair pair = entry.getKey();
             double value = entry.getValue();
 
-            long firstPageCount = pair.getFirstHost().getLinks().size();
-            long secondPageCount = pair.getSecondHost().getLinks().size();
-            value /= 1 + 0.1 * (log(firstPageCount) + log(secondPageCount));
-
+            // TODO normalize
+            // value /= 1 + 0.2 * log(MAX_SHINGLES_FROM_SITE);
             pair.setWeight(value);
 
             result.add(pair);

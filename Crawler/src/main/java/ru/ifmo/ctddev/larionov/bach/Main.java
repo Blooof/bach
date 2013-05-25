@@ -36,11 +36,11 @@ public class Main {
     http://www.gnupg.org/ http://gnupg.raffsoftware.com/ http://gnupg.parentinginformed.com/
      */
     private static final String[] HOSTS_LIST = new String[]{
-            "www.php.net", "fi1.php.net", "jp1.php.net",
+            //        "www.php.net", "fi1.php.net", "jp1.php.net",
             //        "cran.r-project.org", "cran.rstudio.com", "cran.gis-lab.info",
             //        "arxiv.org", "uk.arxiv.org",
-            //        "www.wikileaks.org", "www.wikileaks.no",
-            //          "www.gnupg.org", "gnupg.raffsoftware.com", "gnupg.parentinginformed.com"
+            "www.wikileaks.org", "www.wikileaks.no",
+            //        "www.gnupg.org", "gnupg.raffsoftware.com", "gnupg.parentinginformed.com"
     };
     private static final Set<String> HOSTS = new HashSet<>(Arrays.asList(HOSTS_LIST));
     private static final String FILENAME = "urls.txt";

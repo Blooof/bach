@@ -27,7 +27,7 @@ public class Main {
 
     private void run() {
         IClassifier classifier = (IClassifier) context.getBean("defaultClassifier");
-        Iterable urls = (Iterable) context.getBean("arxiv");
+        Iterable urls = (Iterable) context.getBean("wikileaks");
 
         List<WeightedPair> pairs = classifier.classify(urls);
         System.out.println(pairs);

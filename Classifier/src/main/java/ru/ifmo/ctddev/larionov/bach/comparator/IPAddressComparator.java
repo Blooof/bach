@@ -49,9 +49,6 @@ public class IPAddressComparator implements IComparator {
                 String hostAddress = inetAddress.getHostAddress();
                 logger.debug(String.format("Url %s resolved in %s", site.getHost(), hostAddress));
 
-                // TODO test with three and four octets
-                hostAddress = getThreeOctets(hostAddress);
-
                 addNewIpAddress(ipToHosts, site, hostAddress);
             } catch (UnknownHostException e) {
                 logger.warn("Cannot resolve url " + host, e);
@@ -63,32 +60,29 @@ public class IPAddressComparator implements IComparator {
 
     private List<WeightedPair> getWeightedPairs(Map<String, Set<ISite>> ipToHosts) {
         List<WeightedPair> weightedList = new ArrayList<>();
+
         for (Map.Entry<String, Set<ISite>> entry : ipToHosts.entrySet()) {
             Set<ISite> currentHosts = entry.getValue();
 
             if (currentHosts.size() < threshold && currentHosts.size() > 1) {
                 ISite[] hostsArray = currentHosts.toArray(new ISite[0]);
+                int length = hostsArray.length;
 
-                for (int i = 0; i < hostsArray.length - 1; i++) {
-                    for (int j = i + 1; j < hostsArray.length; j++) {
+                for (int i = 0; i < length - 1; i++) {
+                    for (int j = i + 1; j < length; j++) {
                         ISite firstHost = hostsArray[i];
                         ISite secondHost = hostsArray[j];
 
                         if (!firstHost.equals(secondHost)) {
-                            // TODO weight
-                            WeightedPair newPair = new WeightedPair(firstHost, secondHost, 1.0);
+                            WeightedPair newPair = new WeightedPair(firstHost, secondHost, 1.0 / length);
                             weightedList.add(newPair);
                         }
                     }
                 }
             }
         }
-        return weightedList;
-    }
 
-    private String getThreeOctets(String hostAddress) {
-        hostAddress = hostAddress.substring(0, hostAddress.lastIndexOf("."));
-        return hostAddress;
+        return weightedList;
     }
 
     private void addNewIpAddress(Map<String, Set<ISite>> ipToHosts, ISite site, String hostAddress) {

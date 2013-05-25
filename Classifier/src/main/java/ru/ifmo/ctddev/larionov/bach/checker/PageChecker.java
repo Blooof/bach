@@ -18,7 +18,7 @@ import java.util.List;
 public class PageChecker implements IPageChecker {
 
     private static final Logger logger = Logger.getLogger(PageChecker.class);
-    private static final int DEFAULT_LINKS_COUNT = 40;
+    private static final int DEFAULT_LINKS_COUNT = 50;
     private ILinkStrategy linkStrategy;
     private ITextChecker textChecker;
     private IDownloader textDownloader;
@@ -48,7 +48,7 @@ public class PageChecker implements IPageChecker {
             }
         }
 
-        if (badPairs > DEFAULT_LINKS_COUNT / 2) {
+        if (validPairs == 0) {
             result = 0;
         } else {
             result /= validPairs;
