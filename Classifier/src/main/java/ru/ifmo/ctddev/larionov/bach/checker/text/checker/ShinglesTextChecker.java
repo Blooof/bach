@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.larionov.bach.checker.textchecker;
+package ru.ifmo.ctddev.larionov.bach.checker.text.checker;
 
 import org.apache.log4j.Logger;
 

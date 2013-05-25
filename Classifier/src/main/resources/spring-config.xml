@@ -19,18 +19,29 @@
         <constructor-arg index="2" ref="pageChecker"/>
     </bean>
 
-    <bean name="defaultUrls" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
+    <bean name="default" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
         <constructor-arg value="test.txt"/>
     </bean>
 
-    <bean name="arxivOrg" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
+    <bean name="arxiv" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
         <constructor-arg value="arxiv.org.txt"/>
     </bean>
 
+    <bean name="gnupg" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
+        <constructor-arg value="gnupg.txt"/>
+    </bean>
+
+    <bean name="php" class="ru.ifmo.ctddev.larionov.bach.common.site.FileList">
+        <constructor-arg value="php.net.txt"/>
+    </bean>
+
     <bean name="linkStrategy" class="ru.ifmo.ctddev.larionov.bach.checker.linkstrategy.SimpleLinkStrategy"/>
-    <bean name="textChecker" class="ru.ifmo.ctddev.larionov.bach.checker.textchecker.ShinglesTextChecker"/>
+    <bean name="textChecker" class="ru.ifmo.ctddev.larionov.bach.checker.text.checker.ShinglesTextChecker"/>
+    <bean name="textDownloader" class="ru.ifmo.ctddev.larionov.bach.checker.text.downloader.InternetDownloader"/>
+
     <bean name="pageChecker" class="ru.ifmo.ctddev.larionov.bach.checker.PageChecker">
         <constructor-arg ref="linkStrategy"/>
         <constructor-arg ref="textChecker"/>
+        <constructor-arg ref="textDownloader"/>
     </bean>
 </beans>

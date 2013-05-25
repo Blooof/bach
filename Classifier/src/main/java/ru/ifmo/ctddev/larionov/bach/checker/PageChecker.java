@@ -1,13 +1,12 @@
 package ru.ifmo.ctddev.larionov.bach.checker;
 
 import org.apache.log4j.Logger;
-import org.jsoup.Jsoup;
 import ru.ifmo.ctddev.larionov.bach.checker.linkstrategy.ILinkStrategy;
-import ru.ifmo.ctddev.larionov.bach.checker.textchecker.ITextChecker;
+import ru.ifmo.ctddev.larionov.bach.checker.text.checker.ITextChecker;
+import ru.ifmo.ctddev.larionov.bach.checker.text.downloader.IDownloader;
 import ru.ifmo.ctddev.larionov.bach.common.Pair;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
@@ -19,14 +18,15 @@ import java.util.List;
 public class PageChecker implements IPageChecker {
 
     private static final Logger logger = Logger.getLogger(PageChecker.class);
-    private static final int TIMEOUT = 3000;
-    private static final int DEFAULT_LINKS_COUNT = 20;
+    private static final int DEFAULT_LINKS_COUNT = 40;
     private ILinkStrategy linkStrategy;
     private ITextChecker textChecker;
+    private IDownloader textDownloader;
 
-    public PageChecker(ILinkStrategy linkStrategy, ITextChecker textChecker) {
+    public PageChecker(ILinkStrategy linkStrategy, ITextChecker textChecker, IDownloader textDownloader) {
         this.linkStrategy = linkStrategy;
         this.textChecker = textChecker;
+        this.textDownloader = textDownloader;
     }
 
     @Override
@@ -36,8 +36,8 @@ public class PageChecker implements IPageChecker {
         double result = 0;
         int validPairs = 0, badPairs = 0;
         for (Pair<URL, URL> links : linksList) {
-            String text1 = getText(links.getFirst());
-            String text2 = getText(links.getSecond());
+            String text1 = textDownloader.download(links.getFirst());
+            String text2 = textDownloader.download(links.getSecond());
             if (text1 != null && text2 != null) {
                 logger.debug("Valid pair: " + links);
                 result += textChecker.checkText(text1, text2);
@@ -56,19 +56,5 @@ public class PageChecker implements IPageChecker {
 
         logger.debug("Resemblance value for " + pair + " = " + result);
         return result;
-    }
-
-    private String getText(URL link) {
-        logger.debug("Getting " + link);
-        try {
-            return downloadText(link);
-        } catch (IOException e) {
-            logger.warn("Cannot get page", e);
-            return null;
-        }
-    }
-
-    private String downloadText(URL url) throws IOException {
-        return Jsoup.parse(url, TIMEOUT).body().text();
     }
 }

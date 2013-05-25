@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.larionov.bach.checker.textchecker;
+package ru.ifmo.ctddev.larionov.bach.checker.text.checker;
 
 /**
  * User: Oleg Larionov

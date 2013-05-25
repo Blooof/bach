@@ -7,7 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.ifmo.ctddev.larionov.bach.checker.linkstrategy.ILinkStrategy;
-import ru.ifmo.ctddev.larionov.bach.checker.textchecker.ITextChecker;
+import ru.ifmo.ctddev.larionov.bach.checker.text.checker.ITextChecker;
+import ru.ifmo.ctddev.larionov.bach.checker.text.downloader.IDownloader;
 import ru.ifmo.ctddev.larionov.bach.common.Pair;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
@@ -34,6 +35,8 @@ public class PageCheckerTest {
     private ILinkStrategy linkStrategy;
     @Mock
     private ITextChecker textChecker;
+    @Mock
+    private IDownloader textDownloader;
     @InjectMocks
     private PageChecker pageChecker;
     private WeightedPair weightedPair;
@@ -45,7 +48,9 @@ public class PageCheckerTest {
                 new URL("http://www.google.com"));
         List<Pair<URL, URL>> linkPairs = Collections.singletonList(pair);
         when(linkStrategy.createLinks(eq(weightedPair), any(Integer.class))).thenReturn(linkPairs);
-        when(textChecker.checkText(any(String.class), any(String.class))).thenReturn(1d);
+        String text = "already prepared text";
+        when(textDownloader.download(any(URL.class))).thenReturn(text);
+        when(textChecker.checkText(text, text)).thenReturn(1d);
     }
 
     @Test
