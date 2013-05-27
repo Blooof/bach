@@ -34,7 +34,7 @@ public class PageChecker implements IPageChecker {
         List<Pair<URL, URL>> linksList = linkStrategy.createLinks(pair, DEFAULT_LINKS_COUNT);
 
         double result = 0;
-        int validPairs = 0, badPairs = 0;
+        int validPairs = 0;
         for (Pair<URL, URL> links : linksList) {
             String text1 = textDownloader.download(links.getFirst());
             String text2 = textDownloader.download(links.getSecond());
@@ -44,7 +44,6 @@ public class PageChecker implements IPageChecker {
                 validPairs++;
             } else if (text1 != null || text2 != null) {
                 logger.debug("Bad pair: " + links);
-                badPairs++;
             }
         }
 
