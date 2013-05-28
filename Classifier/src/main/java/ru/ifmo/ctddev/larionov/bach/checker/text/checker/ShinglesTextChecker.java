@@ -1,6 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.checker.text.checker;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.StringTokenizer;
  * Date: 12.05.13
  * Time: 17:43
  */
+@Service("textChecker")
 public class ShinglesTextChecker implements ITextChecker {
 
     private static final Logger logger = Logger.getLogger(ShinglesTextChecker.class);

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <context:component-scan base-package="ru.ifmo.ctddev.larionov.bach"/>
+
+    <!-- Main Service -->
+    <bean id="classifierService" class="ru.ifmo.ctddev.larionov.bach.classifier.Classifier">
+        <constructor-arg index="0">
+            <list>
+                <ref bean="ipComparator"/>
+                <ref bean="urlComparator"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <list>
+                <value>0.5</value>
+                <value>1</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="2" ref="pageChecker"/>
+    </bean>
+
+    <!-- Jackson Json Serializer -->
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+
+    <jaxrs:server id="restContainer" address="/">
+        <jaxrs:serviceBeans>
+            <ref bean="classifierEndpoint"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider"/>
+            <bean id="listProvider" class="ru.ifmo.ctddev.larionov.bach.endpoint.provider.ListReader"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+</beans>

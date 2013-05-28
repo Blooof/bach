@@ -24,26 +24,36 @@ public class FileList implements Iterable<ISite> {
     private static final Logger logger = Logger.getLogger(FileList.class);
     private Map<String, ISite> sites = new HashMap<>();
 
+    public FileList(Iterable<String> list) {
+        for (String url : list) {
+            parseUrl(url);
+        }
+    }
+
     public FileList(File file) {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String url;
             while ((url = br.readLine()) != null) {
-                url = url.trim();
-                try {
-                    URL page = new URL(url);
-                    String host = page.getHost();
-
-                    if (!sites.containsKey(host)) {
-                        sites.put(host, new Site(host, new ArrayList<URL>()));
-                    }
-
-                    sites.get(host).getLinks().add(page);
-                } catch (MalformedURLException e) {
-                    logger.warn("Cannot parse url", e);
-                }
+                parseUrl(url);
             }
         } catch (IOException e) {
             throw new ClassifierRuntimeException("Cannot open file " + file.getAbsolutePath(), e);
+        }
+    }
+
+    private void parseUrl(String url) {
+        url = url.trim();
+        try {
+            URL page = new URL(url);
+            String host = page.getHost();
+
+            if (!sites.containsKey(host)) {
+                sites.put(host, new Site(host, new ArrayList<URL>()));
+            }
+
+            sites.get(host).getLinks().add(page);
+        } catch (MalformedURLException e) {
+            logger.warn("Cannot parse url", e);
         }
     }
 

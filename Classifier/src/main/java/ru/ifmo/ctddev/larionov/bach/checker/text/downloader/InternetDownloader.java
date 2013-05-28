@@ -3,6 +3,7 @@ package ru.ifmo.ctddev.larionov.bach.checker.text.downloader;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,6 +13,7 @@ import java.net.URL;
  * Date: 25.05.13
  * Time: 13:51
  */
+@Service("inetDownloader")
 public class InternetDownloader implements IDownloader {
 
     private static final Logger logger = Logger.getLogger(InternetDownloader.class);
@@ -20,15 +22,16 @@ public class InternetDownloader implements IDownloader {
 
     @Override
     public String download(URL url) {
+        String text = null;
         try {
             Document doc = Jsoup.connect(url.toString())
-                    .userAgent(USER_AGENT)
+                    .userAgent(USER_AGENT).timeout(TIMEOUT)
                     .get();
 
-            return doc.body().text();
+            text = doc.body().text();
         } catch (IOException e) {
             logger.warn("Cannot get page", e);
-            return null;
         }
+        return text;
     }
 }

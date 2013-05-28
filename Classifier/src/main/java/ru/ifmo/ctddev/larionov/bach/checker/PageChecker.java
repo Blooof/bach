@@ -1,6 +1,8 @@
 package ru.ifmo.ctddev.larionov.bach.checker;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.ifmo.ctddev.larionov.bach.checker.linkstrategy.ILinkStrategy;
 import ru.ifmo.ctddev.larionov.bach.checker.text.checker.ITextChecker;
 import ru.ifmo.ctddev.larionov.bach.checker.text.downloader.IDownloader;
@@ -15,6 +17,7 @@ import java.util.List;
  * Date: 12.05.13
  * Time: 16:43
  */
+@Service("pageChecker")
 public class PageChecker implements IPageChecker {
 
     private static final Logger logger = Logger.getLogger(PageChecker.class);
@@ -23,9 +26,18 @@ public class PageChecker implements IPageChecker {
     private ITextChecker textChecker;
     private IDownloader textDownloader;
 
-    public PageChecker(ILinkStrategy linkStrategy, ITextChecker textChecker, IDownloader textDownloader) {
+    @Autowired
+    public void setLinkStrategy(ILinkStrategy linkStrategy) {
         this.linkStrategy = linkStrategy;
+    }
+
+    @Autowired
+    public void setTextChecker(ITextChecker textChecker) {
         this.textChecker = textChecker;
+    }
+
+    @Autowired
+    public void setTextDownloader(IDownloader textDownloader) {
         this.textDownloader = textDownloader;
     }
 

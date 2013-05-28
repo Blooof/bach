@@ -1,5 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.common.site;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +26,7 @@ public class Site implements ISite {
         return host;
     }
 
+    @JsonIgnore
     @Override
     public List<URL> getLinks() {
         return links;

@@ -1,5 +1,6 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
+import org.springframework.stereotype.Service;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
@@ -20,6 +21,7 @@ import static java.lang.Math.min;
  * Date: 06.05.13
  * Time: 23:33
  */
+@Service("urlComparator")
 public class URLShinglesComparator implements IComparator {
 
     private static final int DEFAULT_SHINGLES_COUNT = 2;

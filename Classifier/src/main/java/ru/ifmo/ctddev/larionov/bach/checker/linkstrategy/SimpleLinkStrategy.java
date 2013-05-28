@@ -1,6 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.checker.linkstrategy;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.ifmo.ctddev.larionov.bach.common.Pair;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
@@ -16,6 +17,7 @@ import java.util.Random;
  * Date: 12.05.13
  * Time: 16:55
  */
+@Service("linkStrategy")
 public class SimpleLinkStrategy implements ILinkStrategy {
 
     private static final Logger logger = Logger.getLogger(SimpleLinkStrategy.class);

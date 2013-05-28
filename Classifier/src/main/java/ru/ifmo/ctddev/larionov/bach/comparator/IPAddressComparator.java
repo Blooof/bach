@@ -1,6 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
@@ -18,6 +19,7 @@ import java.util.Set;
  * Date: 04.05.13
  * Time: 23:52
  */
+@Service("ipComparator")
 public class IPAddressComparator implements IComparator {
 
     public static final int DEFAULT_THRESHOLD = 10;
