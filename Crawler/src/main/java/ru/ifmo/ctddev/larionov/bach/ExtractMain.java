@@ -10,7 +10,7 @@ import java.io.File;
  * Time: 18:36
  */
 public class ExtractMain {
-    public static final String FILENAME = "cran.rstudio.com";
+    public static final String FILENAME = "blogspot.com";
 
     public static void main(String[] args) {
         File from = new File("run/" + FILENAME + ".json");

@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ifmo.ctddev.larionov.bach.classifier.IClassifier;
-import ru.ifmo.ctddev.larionov.bach.common.site.FileList;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
@@ -36,9 +35,8 @@ public class ClassifierEndpoint {
     @Path("classify")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    public List<WeightedPair> classify(List<String> urls) {
-        logger.info(String.format("New request: urls count: %d", urls.size()));
-        Iterable<ISite> sites = new FileList(urls);
-        return classifier.classify(sites);
+    public List<WeightedPair> classify(Iterable<ISite> urls) {
+        logger.info(String.format("New request"));
+        return classifier.classify(urls);
     }
 }

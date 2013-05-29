@@ -21,6 +21,7 @@ import java.util.Map;
  */
 public class FileList implements Iterable<ISite> {
 
+    private static final int MIN_PAGES_COUNT = 50;
     private static final Logger logger = Logger.getLogger(FileList.class);
     private Map<String, ISite> sites = new HashMap<>();
 
@@ -28,6 +29,7 @@ public class FileList implements Iterable<ISite> {
         for (String url : list) {
             parseUrl(url);
         }
+        removeSmallSites(MIN_PAGES_COUNT);
     }
 
     public FileList(File file) {
@@ -36,8 +38,19 @@ public class FileList implements Iterable<ISite> {
             while ((url = br.readLine()) != null) {
                 parseUrl(url);
             }
+            removeSmallSites(MIN_PAGES_COUNT);
         } catch (IOException e) {
             throw new ClassifierRuntimeException("Cannot open file " + file.getAbsolutePath(), e);
+        }
+    }
+
+    private void removeSmallSites(int minSize) {
+        Iterator<Map.Entry<String, ISite>> iterator = sites.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, ISite> site = iterator.next();
+            if (site.getValue().getLinks().size() < minSize) {
+                iterator.remove();
+            }
         }
     }
 

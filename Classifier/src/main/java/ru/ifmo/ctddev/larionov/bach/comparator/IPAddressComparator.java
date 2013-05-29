@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static java.lang.Math.log;
+
 /**
  * User: Oleg Larionov
  * Date: 04.05.13
@@ -22,7 +24,7 @@ import java.util.Set;
 @Service("ipComparator")
 public class IPAddressComparator implements IComparator {
 
-    public static final int DEFAULT_THRESHOLD = 10;
+    public static final int DEFAULT_THRESHOLD = 50;
     private static final Logger logger = Logger.getLogger(IPAddressComparator.class);
     private int threshold;
 
@@ -66,7 +68,7 @@ public class IPAddressComparator implements IComparator {
         for (Map.Entry<String, Set<ISite>> entry : ipToHosts.entrySet()) {
             Set<ISite> currentHosts = entry.getValue();
 
-            if (currentHosts.size() < threshold && currentHosts.size() > 1) {
+            if (currentHosts.size() > 1) {
                 ISite[] hostsArray = currentHosts.toArray(new ISite[0]);
                 int length = hostsArray.length;
 
@@ -76,7 +78,14 @@ public class IPAddressComparator implements IComparator {
                         ISite secondHost = hostsArray[j];
 
                         if (!firstHost.equals(secondHost)) {
-                            WeightedPair newPair = new WeightedPair(firstHost, secondHost, 1.0 / length);
+                            double weight;
+                            if (length <= threshold) {
+                                weight = 1.0 / length;
+                            } else {
+                                weight = -log(length - threshold);
+                            }
+
+                            WeightedPair newPair = new WeightedPair(firstHost, secondHost, weight);
                             weightedList.add(newPair);
                         }
                     }

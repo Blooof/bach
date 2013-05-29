@@ -5,9 +5,11 @@ import ru.ifmo.ctddev.larionov.bach.checker.IPageChecker;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 import ru.ifmo.ctddev.larionov.bach.comparator.IComparator;
+import ru.ifmo.ctddev.larionov.bach.database.IMirrorsBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,17 +21,21 @@ import java.util.Map;
 public class Classifier implements IClassifier {
 
     private static final double DEFAULT_THRESHOLD = 0.5;
+    private static final double ZERO = 0.01;
     private static final Logger logger = Logger.getLogger(Classifier.class);
     private List<IComparator> siteComparators;
     private double[] multipliers;
     private IPageChecker pageChecker;
+    private IMirrorsBase mirrorsBase;
 
-    public Classifier(List<IComparator> siteComparators, double[] multipliers, IPageChecker pageChecker) {
+    public Classifier(List<IComparator> siteComparators, double[] multipliers, IPageChecker pageChecker,
+                      IMirrorsBase mirrorsBase) {
         checkArguments(siteComparators, multipliers);
 
         this.siteComparators = siteComparators;
         this.multipliers = multipliers;
         this.pageChecker = pageChecker;
+        this.mirrorsBase = mirrorsBase;
     }
 
     private void checkArguments(List<IComparator> siteComparators, double[] multipliers) {
@@ -55,9 +61,15 @@ public class Classifier implements IClassifier {
         List<WeightedPair> candidates = extractResults(weights);
         logger.debug("Candidates: " + candidates);
 
-        for (WeightedPair pair : candidates) {
+        Iterator<WeightedPair> iterator = candidates.iterator();
+        while (iterator.hasNext()) {
+            WeightedPair pair = iterator.next();
             double value = pageChecker.checkPair(pair);
             pair.setWeight(value);
+
+            if (value < ZERO) {
+                iterator.remove();
+            }
         }
 
         logger.debug("Final results: " + candidates);
@@ -89,4 +101,6 @@ public class Classifier implements IClassifier {
             weights.put(pair, currentWeight + multiplier * pair.getWeight());
         }
     }
+
+
 }
