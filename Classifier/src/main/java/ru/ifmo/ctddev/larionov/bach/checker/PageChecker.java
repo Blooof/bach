@@ -56,6 +56,7 @@ public class PageChecker implements IPageChecker {
                 validPairs++;
             } else if (text1 != null || text2 != null) {
                 logger.debug("Bad pair: " + links);
+                badPairs++;
             }
         }
 
@@ -65,8 +66,8 @@ public class PageChecker implements IPageChecker {
         } else {
             result /= validPairs;
         }
+        logger.debug(String.format("Valid pairs: %d; Bad pairs: %d; Resemblance: %f", validPairs, badPairs, result));
 
-        logger.debug("Resemblance value for " + pair + " = " + result);
         return result;
     }
 }
