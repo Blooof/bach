@@ -38,13 +38,11 @@ public class MirrorsBaseComparator implements IComparator {
             for (int j = i + 1; j < length; j++) {
                 ISite second = list.get(j);
 
-                double weight = mirrorsBase.checkMirrors(first.getHost(), second.getHost());
-                if (weight > 0) {
-                    result.add(new WeightedPair(first, second, weight));
-                }
+                result.add(new WeightedPair(first, second));
             }
         }
 
+        mirrorsBase.checkMirrors(result);
         return result;
     }
 }

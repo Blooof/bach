@@ -97,6 +97,45 @@ public class MirrorsBase implements IMirrorsBase {
     }
 
     @Override
+    public void checkMirrors(List<WeightedPair> pairs) {
+        logger.debug("Check mirrors request: pairs size: " + pairs.size());
+        OrientGraph graph = graphFactory.getGraph();
+        try {
+            for (WeightedPair pair : pairs) {
+                logger.debug("Check pair: " + pair);
+                Vertex first = findVertex(graph, pair.getFirstHost().getHost());
+                Vertex second = findVertex(graph, pair.getSecondHost().getHost());
+                logger.debug("Found vertices: " + first + ", " + second);
+
+                if (first == null || second == null || first.equals(second)) {
+                    pair.setWeight(0);
+                    continue;
+                }
+
+                String query = String.format("select shortestPath(%s, %s, 'BOTH')", first.getId(), second.getId());
+                List<ODocument> documents = graph.getRawGraph().query(new OSQLSynchQuery(query));
+                List<ODocument> path = documents.get(0).field(SHORTEST_PATH);
+
+                double weight;
+                if (path.size() > 1) {
+                    weight = 1.0;
+                } else {
+                    weight = 0.0;
+                }
+
+                pair.setWeight(weight);
+            }
+
+        } catch (Exception e) {
+            graph.rollback();
+            throw new ClassifierRuntimeException("Cannot check mirrors", e);
+        } finally {
+            logger.debug("Transaction completed");
+            graph.shutdown();
+        }
+    }
+
+    @Override
     public double checkMirrors(String firstHost, String secondHost) {
         logger.debug(String.format("Check mirrors request: %s, %s", firstHost, secondHost));
         OrientGraph graph = graphFactory.getGraph();
