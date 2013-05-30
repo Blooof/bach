@@ -43,6 +43,9 @@ public class SimpleLinkStrategy implements ILinkStrategy {
         for (int i = 0; i < count; i++) {
             URL firstUrl = from.get(rnd.nextInt(from.size()));
             String path = firstUrl.getPath();
+            if (firstUrl.getQuery() != null) {
+                path += "?" + firstUrl.getQuery();
+            }
 
             try {
                 URL secondUrl = new URL(String.format("%s://%s%s", firstUrl.getProtocol(), hostName, path));

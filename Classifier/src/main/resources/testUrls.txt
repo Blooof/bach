@@ -1,5 +1,0 @@
-http://google.com/index.html
-http://google.com/buy.html
-http://google.com/get.html
-http://yandex.ru/index.html
-http://yandex.ru/system.php

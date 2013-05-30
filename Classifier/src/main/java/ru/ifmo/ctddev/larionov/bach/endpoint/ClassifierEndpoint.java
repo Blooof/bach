@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -35,8 +36,17 @@ public class ClassifierEndpoint {
     @Path("classify")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    public List<WeightedPair> classify(Iterable<ISite> urls) {
+    public Response classify(Iterable<ISite> urls) {
         logger.info(String.format("New request"));
-        return classifier.classify(urls);
+
+        Response response;
+        try {
+            List<WeightedPair> result = classifier.classify(urls);
+            response = Response.ok(result).build();
+        } catch (Exception e) {
+            response = Response.status(Response.Status.BAD_REQUEST).entity("Cannot complete request. Reason: " + e).build();
+        }
+
+        return response;
     }
 }

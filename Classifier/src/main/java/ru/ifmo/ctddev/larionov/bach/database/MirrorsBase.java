@@ -144,7 +144,7 @@ public class MirrorsBase implements IMirrorsBase {
             Vertex second = findVertex(graph, secondHost);
             logger.debug("Found vertices: " + first + ", " + second);
             if (first == null || second == null) {
-                return 0;
+                return -1;
             }
             if (first.equals(second)) {
                 return 1;
@@ -155,7 +155,9 @@ public class MirrorsBase implements IMirrorsBase {
             List<ODocument> path = documents.get(0).field(SHORTEST_PATH);
 
             double weight;
-            if (path.size() > 1) {
+            int last = path.size() - 1;
+            if ((path.get(last).equals(first) && path.get(0).equals(second)) ||
+                    (path.get(0).equals(first) && path.get(last).equals(second))) {
                 weight = 1.0;
             } else {
                 weight = 0.0;
