@@ -50,7 +50,13 @@ public class WeightedPair {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pair);
+        String firstHost = pair.getFirst().getHost(), secondHost = pair.getSecond().getHost();
+        if (firstHost.compareTo(secondHost) > 0) {
+            String tmp = firstHost;
+            firstHost = secondHost;
+            secondHost = tmp;
+        }
+        return Objects.hash(firstHost + secondHost);
     }
 
     @Override
@@ -62,6 +68,10 @@ public class WeightedPair {
             return false;
         }
         final WeightedPair other = (WeightedPair) obj;
-        return Objects.equals(this.pair, other.pair);
+        boolean result = Objects.equals(pair.getFirst(), other.pair.getFirst())
+                && Objects.equals(pair.getSecond(), other.pair.getSecond());
+        result = result || (Objects.equals(pair.getSecond(), other.pair.getFirst())
+                && Objects.equals(pair.getFirst(), other.pair.getSecond()));
+        return result;
     }
 }
