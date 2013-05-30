@@ -6,6 +6,7 @@ import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
@@ -22,6 +23,7 @@ import java.util.List;
 @Service("mirrorsBase")
 public class MirrorsBase implements IMirrorsBase {
 
+    private static final Logger logger = Logger.getLogger(MirrorsBase.class);
     private static final String HOST = "host";
     private static final String MIRROR = "mirror";
     private static final String WEIGHT = "weight";
@@ -35,11 +37,12 @@ public class MirrorsBase implements IMirrorsBase {
 
     @Override
     public void addMirrors(WeightedPair pair) {
+        logger.debug("Adding new pair to mirrors " + pair);
         OrientGraph graph = graphFactory.getGraph();
         try {
             Vertex first = getVertex(graph, pair.getFirstHost().getHost());
             Vertex second = getVertex(graph, pair.getSecondHost().getHost());
-
+            logger.debug(String.format("New vertices: %s, %s", first, second));
             if (first.equals(second)) {
                 return;
             }
@@ -52,6 +55,7 @@ public class MirrorsBase implements IMirrorsBase {
             graph.rollback();
             throw new ClassifierRuntimeException("Fail to add mirrors to database", e);
         } finally {
+            logger.debug("Transaction completed");
             graph.shutdown();
         }
     }
@@ -94,11 +98,12 @@ public class MirrorsBase implements IMirrorsBase {
 
     @Override
     public double checkMirrors(String firstHost, String secondHost) {
+        logger.debug(String.format("Check mirrors request: %s, %s", firstHost, secondHost));
         OrientGraph graph = graphFactory.getGraph();
         try {
             Vertex first = findVertex(graph, firstHost);
             Vertex second = findVertex(graph, secondHost);
-
+            logger.debug("Found vertices: " + first + ", " + second);
             if (first == null || second == null) {
                 return 0;
             }
@@ -122,6 +127,7 @@ public class MirrorsBase implements IMirrorsBase {
             graph.rollback();
             throw new ClassifierRuntimeException("Cannot check mirrors", e);
         } finally {
+            logger.debug("Transaction completed");
             graph.shutdown();
         }
     }

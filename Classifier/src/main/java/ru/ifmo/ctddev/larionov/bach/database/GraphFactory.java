@@ -1,6 +1,7 @@
 package ru.ifmo.ctddev.larionov.bach.database;
 
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service("graphFactory")
 public class GraphFactory implements IGraphFactory {
 
+    private static final Logger logger = Logger.getLogger(GraphFactory.class);
     private String databasePath;
     private String login;
     private String password;
@@ -33,6 +35,7 @@ public class GraphFactory implements IGraphFactory {
 
     @Override
     public OrientGraph getGraph() {
+        logger.debug("New graph request!");
         return new OrientGraph(databasePath, login, password);
     }
 }

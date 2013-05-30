@@ -33,7 +33,7 @@
             <list>
                 <value>0.5</value>
                 <value>1</value>
-                <value>2</value>
+                <value>5</value>
             </list>
         </constructor-arg>
         <constructor-arg index="2" ref="pageChecker"/>

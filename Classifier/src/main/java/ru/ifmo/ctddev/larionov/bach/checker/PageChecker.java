@@ -21,7 +21,7 @@ import java.util.List;
 public class PageChecker implements IPageChecker {
 
     private static final Logger logger = Logger.getLogger(PageChecker.class);
-    private static final int DEFAULT_LINKS_COUNT = 50;
+    private static final int DEFAULT_LINKS_COUNT = 40;
     private ILinkStrategy linkStrategy;
     private ITextChecker textChecker;
     private IDownloader textDownloader;
@@ -46,7 +46,7 @@ public class PageChecker implements IPageChecker {
         List<Pair<URL, URL>> linksList = linkStrategy.createLinks(pair, DEFAULT_LINKS_COUNT);
 
         double result = 0;
-        int validPairs = 0;
+        int validPairs = 0, badPairs = 0;
         for (Pair<URL, URL> links : linksList) {
             String text1 = textDownloader.download(links.getFirst());
             String text2 = textDownloader.download(links.getSecond());
@@ -59,7 +59,8 @@ public class PageChecker implements IPageChecker {
             }
         }
 
-        if (validPairs == 0) {
+        // TODO may be should think about more complex strategy
+        if (validPairs == 0 || (validPairs > 0 && badPairs > linksList.size() * 3 / 4)) {
             result = 0;
         } else {
             result /= validPairs;

@@ -20,7 +20,8 @@ import java.util.Map;
  */
 public class Classifier implements IClassifier {
 
-    private static final double DEFAULT_THRESHOLD = 0.5;
+    private static final double DEFAULT_WEIGHT_THRESHOLD = 0.5;
+    private static final double MIRRORS_BASE_THRESHOLD = 0.4;
     private static final double ZERO = 0.01;
     private static final Logger logger = Logger.getLogger(Classifier.class);
     private List<IComparator> siteComparators;
@@ -70,6 +71,10 @@ public class Classifier implements IClassifier {
             if (value < ZERO) {
                 iterator.remove();
             }
+
+            if (value > MIRRORS_BASE_THRESHOLD) {
+                mirrorsBase.addMirrors(pair);
+            }
         }
 
         logger.debug("Final results: " + candidates);
@@ -79,7 +84,7 @@ public class Classifier implements IClassifier {
     private List<WeightedPair> extractResults(Map<WeightedPair, Double> weights) {
         List<WeightedPair> result = new ArrayList<>();
         for (Map.Entry<WeightedPair, Double> entry : weights.entrySet()) {
-            if (entry.getValue() > DEFAULT_THRESHOLD) {
+            if (entry.getValue() > DEFAULT_WEIGHT_THRESHOLD) {
                 result.add(entry.getKey());
             }
         }
