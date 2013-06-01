@@ -29,7 +29,11 @@ public class FileList implements Iterable<ISite> {
         for (String url : list) {
             parseUrl(url);
         }
+
+        logger.debug("Initial FileList size: " + sites.size());
+
         removeSmallSites(MIN_PAGES_COUNT);
+        logger.debug("FileList created with sites: " + sites.size());
     }
 
     public FileList(File file) {

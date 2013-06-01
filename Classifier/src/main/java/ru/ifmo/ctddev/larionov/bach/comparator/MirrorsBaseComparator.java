@@ -31,18 +31,6 @@ public class MirrorsBaseComparator implements IComparator {
             list.add(site);
         }
 
-        List<WeightedPair> result = new ArrayList<>();
-        int length = list.size();
-        for (int i = 0; i < length - 1; i++) {
-            ISite first = list.get(i);
-            for (int j = i + 1; j < length; j++) {
-                ISite second = list.get(j);
-
-                result.add(new WeightedPair(first, second));
-            }
-        }
-
-        mirrorsBase.checkMirrors(result);
-        return result;
+        return mirrorsBase.checkMirrors(list);
     }
 }

@@ -1,5 +1,6 @@
 package ru.ifmo.ctddev.larionov.bach.endpoint.provider;
 
+import org.apache.log4j.Logger;
 import ru.ifmo.ctddev.larionov.bach.common.site.FileList;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 
@@ -26,6 +27,9 @@ import java.util.List;
 @Consumes(MediaType.TEXT_PLAIN)
 @Provider
 public class ListReader implements MessageBodyReader<Iterable<ISite>> {
+
+    private static final Logger logger = Logger.getLogger(ListReader.class);
+
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
         return mediaType.equals(MediaType.TEXT_PLAIN_TYPE) && aClass.equals(Iterable.class);
@@ -33,6 +37,7 @@ public class ListReader implements MessageBodyReader<Iterable<ISite>> {
 
     @Override
     public Iterable<ISite> readFrom(Class<Iterable<ISite>> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
+        logger.debug("New ListReader.readFrom() request");
         List<String> list = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(entityStream))) {
@@ -42,6 +47,7 @@ public class ListReader implements MessageBodyReader<Iterable<ISite>> {
             }
         }
 
+        logger.debug("Rows count: " + list.size());
         return new FileList(list);
     }
 }

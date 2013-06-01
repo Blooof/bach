@@ -94,8 +94,8 @@ public class Classifier implements IClassifier {
     private void runComparator(Iterable<ISite> list, Map<WeightedPair, Double> weights,
                                double multiplier, IComparator comparator) {
         List<WeightedPair> currentPairs = comparator.createPairs(list);
-        logger.debug(String.format("Comparator %s found these pairs: %s",
-                comparator.getClass().toString(), currentPairs.toString()));
+        logger.debug(String.format("Comparator %s found %d pairs",
+                comparator.getClass().toString(), currentPairs.size()));
 
         for (WeightedPair pair : currentPairs) {
             if (!weights.containsKey(pair)) {

@@ -1,5 +1,6 @@
 package ru.ifmo.ctddev.larionov.bach.database;
 
+import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface IMirrorsBase {
 
     public double checkMirrors(String first, String second);
 
-    public void checkMirrors(List<WeightedPair> pairs);
+    public List<WeightedPair> checkMirrors(List<ISite> pairs);
 }
