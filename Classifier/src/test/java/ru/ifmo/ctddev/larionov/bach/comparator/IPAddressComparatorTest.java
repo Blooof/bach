@@ -1,6 +1,8 @@
 package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import org.junit.Test;
+import ru.ifmo.ctddev.larionov.bach.classifier.comparator.IComparator;
+import ru.ifmo.ctddev.larionov.bach.classifier.comparator.IPAddressComparator;
 import ru.ifmo.ctddev.larionov.bach.common.site.FileList;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
@@ -21,7 +23,7 @@ public class IPAddressComparatorTest {
     public void testCreatePairs() throws Exception {
         IComparator comparator = new IPAddressComparator();
 
-        Iterable<ISite> sites = new FileList(new File("src/test/resources/testFileIterator.txt"));
+        Iterable<ISite> sites = new FileList(new File("src/test/resources/testIPComp.txt"));
         List<WeightedPair> pairs = comparator.createPairs(sites);
 
         assertEquals(pairs.size(), 0);

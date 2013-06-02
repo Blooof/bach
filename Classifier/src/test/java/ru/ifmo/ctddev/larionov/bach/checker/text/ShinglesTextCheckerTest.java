@@ -2,7 +2,7 @@ package ru.ifmo.ctddev.larionov.bach.checker.text;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.ifmo.ctddev.larionov.bach.checker.text.checker.ShinglesTextChecker;
+import ru.ifmo.ctddev.larionov.bach.classifier.checker.text.checker.ShinglesTextChecker;
 
 import static org.junit.Assert.assertEquals;
 

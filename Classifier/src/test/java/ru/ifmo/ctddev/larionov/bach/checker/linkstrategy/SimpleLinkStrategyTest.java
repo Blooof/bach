@@ -3,6 +3,7 @@ package ru.ifmo.ctddev.larionov.bach.checker.linkstrategy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.ifmo.ctddev.larionov.bach.classifier.checker.linkstrategy.SimpleLinkStrategy;
 import ru.ifmo.ctddev.larionov.bach.common.Pair;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;

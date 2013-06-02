@@ -1,11 +1,11 @@
 package ru.ifmo.ctddev.larionov.bach.classifier;
 
 import org.apache.log4j.Logger;
-import ru.ifmo.ctddev.larionov.bach.checker.IPageChecker;
+import ru.ifmo.ctddev.larionov.bach.classifier.checker.IPageChecker;
+import ru.ifmo.ctddev.larionov.bach.classifier.comparator.IComparator;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
-import ru.ifmo.ctddev.larionov.bach.comparator.IComparator;
-import ru.ifmo.ctddev.larionov.bach.database.IMirrorsBase;
+import ru.ifmo.ctddev.larionov.bach.database.client.IMirrorsBaseClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,16 +27,16 @@ public class Classifier implements IClassifier {
     private List<IComparator> siteComparators;
     private double[] multipliers;
     private IPageChecker pageChecker;
-    private IMirrorsBase mirrorsBase;
+    private IMirrorsBaseClient mirrorsBaseClient;
 
     public Classifier(List<IComparator> siteComparators, double[] multipliers, IPageChecker pageChecker,
-                      IMirrorsBase mirrorsBase) {
+                      IMirrorsBaseClient mirrorsBaseClient) {
         checkArguments(siteComparators, multipliers);
 
         this.siteComparators = siteComparators;
         this.multipliers = multipliers;
         this.pageChecker = pageChecker;
-        this.mirrorsBase = mirrorsBase;
+        this.mirrorsBaseClient = mirrorsBaseClient;
     }
 
     private void checkArguments(List<IComparator> siteComparators, double[] multipliers) {
@@ -73,7 +73,7 @@ public class Classifier implements IClassifier {
             }
 
             if (value > MIRRORS_BASE_THRESHOLD) {
-                mirrorsBase.addMirrors(pair);
+                mirrorsBaseClient.addMirrors(pair);
             }
         }
 
