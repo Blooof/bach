@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.larionov.bach.classifier.comparator;
+package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -37,13 +37,13 @@ public class IPAddressComparator implements IComparator {
     }
 
     @Override
-    public List<WeightedPair> createPairs(Iterable<ISite> list) {
+    public List<WeightedPair> createPairs(List<ISite> list) {
         Map<String, Set<ISite>> ipToHosts = resolveHosts(list);
 
         return getWeightedPairs(ipToHosts);
     }
 
-    private Map<String, Set<ISite>> resolveHosts(Iterable<ISite> list) {
+    private Map<String, Set<ISite>> resolveHosts(List<ISite> list) {
         Map<String, Set<ISite>> ipToHosts = new HashMap<>();
 
         for (ISite site : list) {

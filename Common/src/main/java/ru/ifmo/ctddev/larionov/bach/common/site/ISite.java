@@ -14,5 +14,9 @@ import java.util.List;
 public interface ISite {
     public String getHost();
 
+    public void setHost(String host);
+
     public List<URL> getLinks();
+
+    public void setLinks(List<URL> links);
 }

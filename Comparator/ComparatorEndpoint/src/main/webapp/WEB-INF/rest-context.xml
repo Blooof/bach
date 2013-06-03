@@ -12,7 +12,7 @@
     <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
-    <context:component-scan base-package="ru.ifmo.ctddev.larionov.bach.classifier"/>
+    <context:component-scan base-package="ru.ifmo.ctddev.larionov.bach.comparator"/>
 
     <!-- Properties -->
     <bean id="propertyConfigurer"
@@ -20,30 +20,37 @@
         <property name="location" value="/WEB-INF/app.properties"/>
     </bean>
 
-    <!-- Main Service -->
-    <bean id="classifierService" class="ru.ifmo.ctddev.larionov.bach.classifier.Classifier">
-        <constructor-arg index="0" ref="comparatorClient"/>
-        <constructor-arg index="1" ref="pageChecker"/>
-        <constructor-arg index="2" ref="mirrorsBaseClient"/>
+    <!-- Main service -->
+    <bean id="comparatorService" class="ru.ifmo.ctddev.larionov.bach.comparator.ComparatorService">
+        <constructor-arg index="0">
+            <list>
+                <ref bean="ipComparator"/>
+                <ref bean="urlComparator"/>
+                <ref bean="mirrorsBaseComparator"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <list>
+                <value>0.5</value>
+                <value>1</value>
+                <value>5</value>
+            </list>
+        </constructor-arg>
     </bean>
 
     <!-- Jackson Json Serializer -->
     <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
 
-    <!-- Database client -->
+    <!-- Database Client -->
     <bean id="mirrorsBaseClient" class="ru.ifmo.ctddev.larionov.bach.database.client.MirrorsBaseClient"/>
-
-    <!-- Comparator client -->
-    <bean id="comparatorClient" class="client.ComparatorClient"/>
 
     <!-- Jackson REST Server -->
     <jaxrs:server id="restContainer" address="/">
         <jaxrs:serviceBeans>
-            <ref bean="classifierEndpoint"/>
+            <ref bean="comparatorEndpoint"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider"/>
-            <bean id="listProvider" class="ru.ifmo.ctddev.larionov.bach.classifier.endpoint.provider.ListReader"/>
         </jaxrs:providers>
     </jaxrs:server>
 </beans>

@@ -35,7 +35,7 @@ public class ClassifierEndpoint {
     @Path("classify")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response classify(Iterable<ISite> urls) {
+    public Response classify(List<ISite> urls) {
         logger.info(String.format("New request"));
 
         Response response;

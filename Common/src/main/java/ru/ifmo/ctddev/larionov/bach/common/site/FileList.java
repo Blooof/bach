@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Map;
  * Date: 10.05.13
  * Time: 22:48
  */
-public class FileList implements Iterable<ISite> {
+public class FileList {
 
     private static final int MIN_PAGES_COUNT = 50;
     private static final Logger logger = Logger.getLogger(FileList.class);
@@ -74,8 +75,7 @@ public class FileList implements Iterable<ISite> {
         }
     }
 
-    @Override
-    public Iterator<ISite> iterator() {
-        return sites.values().iterator();
+    public List<ISite> getList() {
+        return new ArrayList<>(sites.values());
     }
 }

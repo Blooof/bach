@@ -24,5 +24,17 @@
             <artifactId>MirrorsBaseClient</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>ru.ifmo.ctddev.larionov.bach</groupId>
+            <artifactId>ComparatorClient</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Download web sites -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.2</version>
+        </dependency>
     </dependencies>
 </project>

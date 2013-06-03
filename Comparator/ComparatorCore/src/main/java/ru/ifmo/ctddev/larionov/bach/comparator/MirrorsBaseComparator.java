@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.larionov.bach.classifier.comparator;
+package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,6 @@ import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 import ru.ifmo.ctddev.larionov.bach.database.client.IMirrorsBaseClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,12 +24,7 @@ public class MirrorsBaseComparator implements IComparator {
     }
 
     @Override
-    public List<WeightedPair> createPairs(Iterable<ISite> collection) {
-        List<ISite> list = new ArrayList<>();
-        for (ISite site : collection) {
-            list.add(site);
-        }
-
+    public List<WeightedPair> createPairs(List<ISite> list) {
         return mirrorsBaseClient.checkMirrors(list);
     }
 }

@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.larionov.bach.classifier.comparator;
+package ru.ifmo.ctddev.larionov.bach.comparator;
 
 import org.springframework.stereotype.Service;
 import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
@@ -28,7 +28,7 @@ public class URLShinglesComparator implements IComparator {
     private static final int MAX_SHINGLES_FROM_SITE = 200;
 
     @Override
-    public List<WeightedPair> createPairs(Iterable<ISite> list) {
+    public List<WeightedPair> createPairs(List<ISite> list) {
         Map<String, Set<ISite>> data = getShinglesData(list);
 
         Map<WeightedPair, Double> similarity = calculateSimilarity(data);
@@ -75,7 +75,7 @@ public class URLShinglesComparator implements IComparator {
         return similarity;
     }
 
-    private Map<String, Set<ISite>> getShinglesData(Iterable<ISite> list) {
+    private Map<String, Set<ISite>> getShinglesData(List<ISite> list) {
         Map<String, Set<ISite>> data = new HashMap<>();
 
         for (ISite site : list) {

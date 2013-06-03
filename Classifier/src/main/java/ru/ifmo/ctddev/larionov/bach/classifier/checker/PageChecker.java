@@ -43,6 +43,8 @@ public class PageChecker implements IPageChecker {
 
     @Override
     public double checkPair(WeightedPair pair) {
+        logger.debug("Check pair: " + pair);
+
         List<Pair<URL, URL>> linksList = linkStrategy.createLinks(pair, DEFAULT_LINKS_COUNT);
 
         double result = 0;

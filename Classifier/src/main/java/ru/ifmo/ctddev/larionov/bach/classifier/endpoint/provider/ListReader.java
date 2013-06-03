@@ -26,17 +26,17 @@ import java.util.List;
  */
 @Consumes(MediaType.TEXT_PLAIN)
 @Provider
-public class ListReader implements MessageBodyReader<Iterable<ISite>> {
+public class ListReader implements MessageBodyReader<List<ISite>> {
 
     private static final Logger logger = Logger.getLogger(ListReader.class);
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return mediaType.equals(MediaType.TEXT_PLAIN_TYPE) && aClass.equals(Iterable.class);
+        return mediaType.equals(MediaType.TEXT_PLAIN_TYPE) && aClass.equals(List.class);
     }
 
     @Override
-    public Iterable<ISite> readFrom(Class<Iterable<ISite>> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
+    public List<ISite> readFrom(Class<List<ISite>> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
         logger.debug("New ListReader.readFrom() request");
         List<String> list = new ArrayList<>();
 
@@ -48,6 +48,6 @@ public class ListReader implements MessageBodyReader<Iterable<ISite>> {
         }
 
         logger.debug("Rows count: " + list.size());
-        return new FileList(list);
+        return new FileList(list).getList();
     }
 }

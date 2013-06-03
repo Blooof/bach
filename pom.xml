@@ -15,6 +15,7 @@
         <module>Crawler</module>
         <module>MirrorsBase</module>
         <module>Common</module>
+        <module>Comparator</module>
     </modules>
 
     <properties>
@@ -22,14 +23,6 @@
     </properties>
 
     <dependencies>
-
-        <!-- Download web sites -->
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.7.2</version>
-        </dependency>
-
         <!-- Logging -->
         <dependency>
             <groupId>log4j</groupId>

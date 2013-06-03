@@ -31,7 +31,7 @@ public class FileListTest {
     public void setUp() throws Exception {
         File file = new File(FILENAME);
         FileList list = new FileList(file);
-        iterator = list.iterator();
+        iterator = list.getList().iterator();
     }
 
     @Test
