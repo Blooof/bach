@@ -48,7 +48,7 @@ public class ComparatorService implements IComparatorService {
         }
 
         List<WeightedPair> candidates = extractResults(weights);
-        logger.debug("Candidates: " + candidates);
+        logger.debug("Candidates count: " + candidates.size());
 
         return candidates;
     }
@@ -72,8 +72,11 @@ public class ComparatorService implements IComparatorService {
     private List<WeightedPair> extractResults(Map<WeightedPair, Double> weights) {
         List<WeightedPair> result = new ArrayList<>();
         for (Map.Entry<WeightedPair, Double> entry : weights.entrySet()) {
-            if (entry.getValue() > DEFAULT_WEIGHT_THRESHOLD) {
-                result.add(entry.getKey());
+            double value = entry.getValue();
+            if (value > DEFAULT_WEIGHT_THRESHOLD) {
+                WeightedPair pair = entry.getKey();
+                pair.setWeight(value);
+                result.add(pair);
             }
         }
         return result;
