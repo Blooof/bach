@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.lang.Math.log;
-
 /**
  * User: Oleg Larionov
  * Date: 04.05.13
@@ -78,12 +76,13 @@ public class IPAddressComparator implements IComparator {
                         ISite secondHost = hostsArray[j];
 
                         if (!firstHost.equals(secondHost)) {
-                            double weight;
+                            double weight = 0;
                             if (length <= threshold) {
                                 weight = 1.0 / length;
-                            } else {
-                                weight = -log(length - threshold);
                             }
+                            // else {
+                            //   weight = -log(length - threshold);
+                            //}
 
                             WeightedPair newPair = new WeightedPair(firstHost, secondHost, weight);
                             weightedList.add(newPair);

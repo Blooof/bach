@@ -7,7 +7,7 @@ import ru.ifmo.ctddev.larionov.bach.common.site.ISite;
 import ru.ifmo.ctddev.larionov.bach.common.site.WeightedPair;
 import ru.ifmo.ctddev.larionov.bach.database.client.IMirrorsBaseClient;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,13 +43,12 @@ public class Classifier implements IClassifier {
         List<WeightedPair> candidates = comparatorClient.compare(list);
         logger.debug("Candidates count: " + candidates.size());
 
-        Iterator<WeightedPair> iterator = candidates.iterator();
-        while (iterator.hasNext()) {
-            WeightedPair pair = iterator.next();
+        List<WeightedPair> result = new ArrayList<>();
+        for (WeightedPair pair : candidates) {
             double value = pageChecker.checkPair(pair);
             pair.setWeight(value);
-            if (value < ZERO) {
-                iterator.remove();
+            if (value > ZERO) {
+                result.add(pair);
             }
 
             if (mirrorsBaseClient != null && value > MIRRORS_BASE_THRESHOLD) {
